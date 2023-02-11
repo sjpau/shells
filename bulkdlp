@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#####################################################
+# Download multiple media files passed as arguments.#
+#####################################################
+
+print_help() {
+	echo "Usage: $0 [-f format] url1 [url2...]"
+	echo " -f: Specify audio format for downloading (default: mp3)"
+	echo " url: URL of the video to be downloaded"
+}
+
+format="mp3"
+
+while getopts "f:" opt; do
+case $opt in
+ f) format="$OPTARG" ;;
+ ?) print_help; exit 1 ;;
+esac
+done
+
+shift $((OPTIND-1))
+# Check if at least one URL has been specified
+if [ $# -lt 1 ]; then
+	print_help
+  exit 1
+fi
+
+# Download all specified URLs
+while [ $# -gt 0 ]; do
+  yt-dlp -f 'ba' -x --audio-format $format "$1"
+  shift
+done
+
+echo "Download complete."
+
