@@ -1,0 +1,24 @@
+#!/bin/sh
+
+###################################################
+# Download multiple mp3 files passed as arguments.#
+###################################################
+
+print_help() {
+  echo "Usage: $0 url1 url2 [url3...]"
+}
+
+# Check if at least one URL has been specified
+if [ $# -lt 1 ]; then
+	print_help
+  exit 1
+fi
+
+# Download all specified URLs
+while [ $# -gt 0 ]; do
+  yt-dlp -f 'ba' -x --audio-format mp3 "$1"
+  shift
+done
+
+echo "Download complete."
+

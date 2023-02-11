@@ -1,0 +1,28 @@
+#!/bin/sh
+
+######################################################
+# Concatenate multiple mp3 files passed as arguments.#
+######################################################
+
+print_help() {
+				echo "Usage: $0 file1.mp3 file2.mp3 [file3.mp3...]."
+}
+
+if [ $# -lt 2 ]; then
+  print_help
+  exit 1
+fi
+
+input_files="$1|$2"
+output_file="output.mp3"
+shift 2
+
+while [ $# -gt 0 ]; do
+  input_files="$input_files|$1"
+  shift
+done
+
+# Concatenate all files
+ffmpeg -i "concat:$input_files" -c copy $output_file
+
+echo "Concatenation complete. Output file: $output_file"
