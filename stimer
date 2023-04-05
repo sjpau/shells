@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 <XX:XX:XX>"
+    exit 1
+fi
+
+input=$1
+
+IFS=: read hrs min sec <<< "$input"
+total=$((hrs*60*60 + min*60 + sec))
+
+sleep $total; notify-send "Timer is over!"; paplay /usr/share/sounds/freedesktop/stereo/complete.oga
